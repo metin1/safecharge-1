@@ -3,9 +3,9 @@ const path = require('path');
 //const { PORT } = require("./config/keys");
 const app = express();
 
-require("./startUp/db")();
+// require("./startUp/db")();
 require("./startUp/parser")(app);
-require("./startUp/routes")(app);
+// require("./startUp/routes")(app);
 
 if (process.env.NODE_ENV === "production") {
     app.use(express.static("client/build"));
