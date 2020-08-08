@@ -288,7 +288,7 @@ class Products extends Component {
       _id: 'sdfdsfasdf',
       stock: '122',
       name: 'Mountain Bike',
-      price: '120',
+      price: '10',
       image:
         'https://sc01.alicdn.com/kf/Hf7051724212546b499e1e29e7b2e30ebZ.jpg',
       category: 'mountain',

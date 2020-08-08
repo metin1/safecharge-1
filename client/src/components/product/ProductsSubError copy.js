@@ -7,7 +7,7 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 
 let sessionToken = '';
-let clientUniqueId = '123456';
+let clientUniqueId = '';
 let userTokenId = 'someone@site.com';
 let innerText = '';
 
@@ -16,11 +16,8 @@ let merchantId = '5779192833181891488';
 let cardNumber = '4000027891380961';
 let cardHolderName = 'FL-BRW1';
 let expirationMonth = '12';
-let expirationYear = '25'; 
-let clientRequestId = '20200805200408'; 
-let timeStamp = '20200805200408'; 
+let expirationYear = '25';
 let CVV = '217';
-let userPaymentOptionId  = ''
 class Products extends Component {
   constructor(props) {
     super(props);
@@ -42,8 +39,8 @@ class Products extends Component {
     var data2 = JSON.stringify({
       merchantSiteId,
       merchantId,
-      clientRequestId,
-      timeStamp,
+      clientRequestId: '20200805200408',
+      timeStamp: '20200805200408',
       checksum:
         'ec46a8bedde9a414c87bfebfdb3e466a76b8e5c4809e0963e5be6b467655612c',
       amount: '10',
@@ -51,18 +48,6 @@ class Products extends Component {
       billingAddress: { email: 'someone@somedomain.com', county: 'GB' },
     });
 
-    console.log('openOrder request: ', {
-      merchantSiteId,
-      merchantId,
-      clientRequestId,
-      clientUniqueId,
-      timeStamp,
-      checksum:
-        'ec46a8bedde9a414c87bfebfdb3e466a76b8e5c4809e0963e5be6b467655612c',
-      amount: '10',
-      currency: 'EUR',
-      billingAddress: { email: 'someone@somedomain.com', county: 'GB' },
-    })
     var config2 = {
       method: 'post',
       url: 'https://ppp-test.safecharge.com/ppp/api/openOrder.do',
@@ -74,10 +59,9 @@ class Products extends Component {
 
     axios(config2)
       .then(function (response) {
-        console.log('openOrder response: ',response.data);
+        console.log(response.data);
         sessionToken = response.data && response.data.sessionToken;
-        // clientUniqueId = response.data && response.data.clientUniqueId;
-        // userTokenId = response.data && response.data.userTokenId;
+        clientUniqueId = response.data && response.data.clientUniqueId;
       })
       .catch(function (error) {
         console.log(error);
@@ -98,92 +82,15 @@ class Products extends Component {
   handleChangeName = (e) => {
     console.log(e.target.value);
     cardHolderName = e.target.value;
-  };
-  handleChange = (e) => {
-    cardNumber = e.target.value;
-    if (cardNumber.length === 16) {
-    }
-  };
-  handleChangeExpMonth = (e) => {
-    expirationMonth = e.target.value;
-  };
-  handleChangeExpYear = (e) => {
-    expirationYear = e.target.value;
-  };
-  handleChangeCvs = (e) => {
-    CVV = e.target.value;
+    // if (cardNumber.length === 16) {
+    // }
   };
 
-  getSession = async () => {
-    var data = JSON.stringify({
-      merchantSiteId,
-      merchantId,
-      clientRequestId,
-      timeStamp,
-      checksum:
-        '384e81524a728f8b8ed8e9faab59fd9a0ade6edf5a751bc3ddd7e0882f8ec8cc',
-    });
 
-    var config = {
-      method: 'post',
-      url: 'https://ppp-test.safecharge.com/ppp/api/getSessionToken.do',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      data: data,
-    };
-
-    axios(config)
-      .then(function (response) {
-        console.log(response.data);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  };
-  initialPayment = async () => {
-    var data = JSON.stringify({
-      merchantSiteId,
-      merchantId,
-      sessionToken,
-      clientRequestId,
-      currency: 'EUR',
-      amount: '10',
-      userTokenId,
-      paymentOption: {
-        card: {
-          cardNumber,
-          cardHolderName,
-          expirationMonth,
-          expirationYear,
-          CVV,
-          threeD: {
-            methodNotificationUrl: 'www.ThisIsAMethodNotificationURL.com',
-            platformType: '01',
-          },
-        },
-      },
-    });
-
-    var config = {
-      method: 'post',
-      url: 'https://ppp-test.safecharge.com/ppp/api/initPayment.do',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      data: data,
-    };
-
-    axios(config)
-      .then(function (response) {
-        console.log(response.data);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  };
 
   render() {
+    const { showButton } = this.state;
+
     const aProduct = {
       _id: 'sdfdsfasdf',
       stock: '122',
@@ -241,11 +148,10 @@ class Products extends Component {
       },
     };
 
-    // var scard = ScFields.create('card', { style: style });
-    // console.log(`OUTPUT: Products -> render -> scard`, scard);
-    // showButton &&
-    //   scard.attach(document.getElementById('card-field-placeholder'));
-
+    var scard = ScFields.create('card', { style: style });
+    console.log(`OUTPUT: Products -> render -> scard`, scard);
+    showButton &&
+      scard.attach(document.getElementById('card-field-placeholder'));
 
 
     return (
@@ -269,38 +175,7 @@ class Products extends Component {
               onChange={(e) => this.handleChangeName(e)}
             />
             <br />
-            <label htmlFor='cardHolderName'>Card No:</label>
-            <input
-              type='text'
-              name=''
-              id='cardNumber'
-              value={cardNumber}
-              onChange={(e) => this.handleChange(e)}
-            />
-            <label htmlFor='cardHolderName'>Exp Month:</label>
-            <input
-              type='text'
-              name=''
-              id='expirationMonth'
-              value={expirationMonth}
-              onChange={(e) => this.handleChangeExpMonth(e)}
-            />
-            <label htmlFor='cardHolderName'>Exp Year:</label>
-            <input
-              type='text'
-              name=''
-              id='expirationYear'
-              value={expirationYear}
-              onChange={(e) => this.handleChangeExpYear(e)}
-            />
-            <label htmlFor='cardHolderName'>CVS:</label>
-            <input
-              type='text'
-              name=''
-              id='CVV'
-              value={CVV}
-              onChange={(e) => this.handleChangeCvs(e)}
-            />
+            <div>4000027891380961</div>
             <div
               id='card-field-placeholder'
               className='some initial css-classes'
@@ -312,49 +187,24 @@ class Products extends Component {
           <button
             onClick={async (e) => [
               e.preventDefault(),
-              // await this.getSession(),
-              // await this.initialPayment(),
+              
+              console.log(`OUTPUT: Products -> render -> scard`, scard),
               sfc.authenticate3d(
                 {
                   sessionToken, //received form opeOrder API
-                  merchantId,
-                  merchantSiteId,
                   userTokenId,
                   clientUniqueId, // optional
                   currency: 'EUR',
                   amount: '10',
-                  // paymentOption: scard,
-                  // cardHolderName,
-                  paymentOption: {
-                    card: {
-                    cardNumber,
-                    cardHolderName,
-                    expirationMonth,
-                    expirationYear,
-                    CVV
-                    },
-
-                  },
+                  paymentOption: scard,
+                  cardHolderName,
+                  billingAddress: {
+                    email: "someone@somedomain.com",
+                    country: "GB"
+                  }
                 },
                 function (res) {
-                  console.log('authenticate3d request: ', {
-                    sessionToken, //received form opeOrder API
-                    merchantId,
-                    merchantSiteId,
-                    userTokenId,
-                    clientUniqueId, // optional
-                    currency: 'EUR',
-                    amount: '10',
-                    paymentOption: {
-                      card: {
-                      cardNumber,
-                      cardHolderName,
-                      expirationMonth,
-                      expirationYear,
-                      CVV
-                    }}})
-                  console.log(`authenticate3d: `, res);
-                  // console.log(res.paymentOption && res.paymentOption.threeD); // the structure containing the CVV and ECI
+                  console.log(`OUTPUT: Products -> render -> res`, res);
                   if (res.cancelled === true) {
                     innerText = 'cancelled';
                     Swal.fire(
@@ -371,13 +221,12 @@ class Products extends Component {
                     
                   }
                   if (res.eci === '2' || res.eci === '5') {
-                    console.log('userPaymentOptionId: ,',res.userPaymentOptionId,)
                     var data = JSON.stringify({
                       sessionToken,
                       merchantId,
                       merchantSiteId,
-                      clientRequestId,
-                      timeStamp,
+                      clientRequestId: '20200805200408',
+                      timeStamp: '20200805200408',
                       checksum:
                         'ec46a8bedde9a414c87bfebfdb3e466a76b8e5c4809e0963e5be6b467655612c',
                       relatedTransactionId: '1110000000007288171',
@@ -407,12 +256,12 @@ class Products extends Component {
                       },
                       deviceDetails: { ipAddress: '93.146.254.172' },
                     });
-                    console.log('payment request: ',{
+                    console.log({
                       sessionToken,
                       merchantId,
                       merchantSiteId,
-                      clientRequestId,
-                      timeStamp,
+                      clientRequestId: '20200805200408',
+                      timeStamp: '20200805200408',
                       checksum:
                         'ec46a8bedde9a414c87bfebfdb3e466a76b8e5c4809e0963e5be6b467655612c',
                       relatedTransactionId: '1110000000007288171',

@@ -61,7 +61,7 @@ class CustomerAddress extends Component {
           onAfterOpen={this.afterOpenModal}
           onRequestClose={this.handleCloseModal}
           shouldCloseOnOverlayClick={false}
-          style={customStyles}
+
         >
           <h3>Are you sure delete this address ?</h3>
           <div className="btn-modal-container">
@@ -91,22 +91,22 @@ class CustomerAddress extends Component {
   }
 }
 
-ReactModal.setAppElement("#root");
-const customStyles = {
-  content: {
-    color: "darkred",
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)"
-  },
-  overlay: {
-    backgroundColor: "#444",
-    opacity: "0.9"
-  }
-};
+// ReactModal.setAppElement("#root");
+// const customStyles = {
+//   content: {
+//     color: "darkred",
+//     top: "50%",
+//     left: "50%",
+//     right: "auto",
+//     bottom: "auto",
+//     marginRight: "-50%",
+//     transform: "translate(-50%, -50%)"
+//   },
+//   overlay: {
+//     backgroundColor: "#444",
+//     opacity: "0.9"
+//   }
+// };
 
 export default connect(
   null,

@@ -7,7 +7,10 @@ import jwtDecode from "jwt-decode";
 import "./index.css";
 import App from "./components/App";
 import Home from "./components/layout/pages/home/Home";
-import About from "./components/layout/pages/about/About";
+import PartTwo from "./components/auth/Part2";
+import Part1 from "./components/auth/Part1";
+import Part2 from "./components/auth/Part2initial";
+import PartTwo2 from "./components/auth/Part2-2";
 import NotFound from "./components/layout/pages/notFound/NotFound";
 import SignUp from "./components/auth/SignUp";
 import Login from "./components/auth/Login";
@@ -56,7 +59,10 @@ ReactDOM.render(
       <App>
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route path="/about" component={About} />
+          <Route path="/parttwo" component={PartTwo} />
+          <Route path="/part1" component={Part1} />
+          <Route path="/part2" component={Part2} />
+          <Route path="/parttwo2" component={PartTwo2} />
           <Route path="/partone-err" component={SignUp} />
           <Route path="/partone" component={Login} />
           <Route path="/my-account" component={MyAccount} />

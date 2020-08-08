@@ -13,7 +13,6 @@ const Header = () => (
       <h1>
         <Link to="/">eBike</Link>
       </h1>
-      <NavCategories />
       <Navbar />
     </header>
   </div>

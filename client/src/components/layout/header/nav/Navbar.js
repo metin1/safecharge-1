@@ -36,10 +36,22 @@ class Navbar extends Component {
     const guestLinks = (
       <ul className='guestLinks'>
         <li>
-          <Link to="/partone-err">PartOne-2</Link>
+          <Link to="/part1">Part-1</Link>
+        </li>
+        <li>
+          <Link to="/part2">Form</Link>
         </li>
         <li>
           <Link to="/partone">PartOne</Link>
+        </li>
+        <li>
+          <Link to="/partone-err">PartOne-2</Link>
+        </li>
+        <li>
+          <Link to="/parttwo">PartTwo</Link>
+        </li>
+        <li>
+          <Link to="/parttwo2">PartTwo-2</Link>
         </li>
       </ul>
     );
@@ -60,14 +72,7 @@ class Navbar extends Component {
     return (
       <div>
         <nav className="nav-bar nav-two">
-          {!isAuthenticated ? guestLinks : authLinks}
-          <ul>
-            <li>
-              <Link to="/cart">
-                <i className="fas fa-shopping-cart" /> {totalQuantity}
-              </Link>
-            </li>
-          </ul>
+          {guestLinks }
         </nav>
       </div>
     );
