@@ -132,7 +132,6 @@ const Products1 = (props) => {
     }
   };
 
-
   if (showButton && initailLoad) {
     scard = ScFields.create('card', {
       style: style
@@ -182,8 +181,19 @@ const Products1 = (props) => {
           "country": "GB"
         }
       }, function(result) {
-        console.log('authenticate3d: ', result)
-        
+        console.log('authenticate3d request: ', {
+          "sessionToken": sessionToken,
+          "userTokenId": userTokenId,
+          "clientUniqueId": clientUniqueId, // optional
+          "currency": "USD",
+          "amount": "10",
+          "cardHolderName": cardHolderName,
+          "paymentOption": scard,
+          "billingAddress": {
+            "email": "someone@somedomain.com",
+            "country": "GB"
+          }})
+        console.log('authenticate3d: ', result)    
       })
     }, 500);
   }
@@ -201,8 +211,6 @@ const Products1 = (props) => {
         value={methodPayload}
       />
     </form>
-    <div>methodUrl: {methodUrl}</div>
-    <div>methodPayload: {methodPayload}</div>
       <form action="/charge" method="post" id="payment-form">
         <table>
           <tbody>
@@ -229,7 +237,7 @@ const Products1 = (props) => {
           </div>
         </div>
       </form>
-      <button onClick={async ()=> [createPayment(), authenticate3d()]}>Submit Payment</button>
+      <button onClick={async ()=> [authenticate3d()]}>Submit Payment</button>
     </div>  
   )
 }

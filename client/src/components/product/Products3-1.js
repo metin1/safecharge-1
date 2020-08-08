@@ -42,6 +42,11 @@ class Products extends Component {
       fingerPrint: '',
       methodUrl: '',
       methodPayload: '',
+      cardNumber,
+      cardHolderName,
+      expirationMonth,
+      expirationYear,
+      CVV,
     };
 
     window.React = React;
@@ -70,23 +75,26 @@ class Products extends Component {
 
   handleChangeName = (e) => {
     console.log(e.target.value);
-    cardHolderName = e.target.value;
-    // if (cardNumber.length === 16) {
-    // }
+    cardHolderName = e.target.value;  
+    this.setState({cardHolderName : e.target.value})
   };
   handleChange = (e) => {
     cardNumber = e.target.value;
+    this.setState({cardNumber : e.target.value})
     if (cardNumber.length === 16) {
     }
   };
   handleChangeExpMonth = (e) => {
     expirationMonth = e.target.value;
+    this.setState({expirationMonth : e.target.value})
   };
   handleChangeExpYear = (e) => {
     expirationYear = e.target.value;
+    this.setState({expirationYear : e.target.value})
   };
   handleChangeCvs = (e) => {
     CVV = e.target.value;
+    this.setState({CVV : e.target.value})
   };
 
   openOrder = () => {
@@ -652,7 +660,7 @@ class Products extends Component {
       `OUTPUT: Products -> handleChangeFinger -> this.state.methodUrl`,
       data
     );
-    // event.preventDefault()
+
     const config = {
       headers: {
         'Access-Control-Allow-Origin': '*',
@@ -661,10 +669,9 @@ class Products extends Component {
     };
     let threeDSMethodData = data;
     const res = await axios.post('/api/finger', { url, threeDSMethodData });
-    // const res = await axios.post('/api/finger', formData)
+
     console.log(`OUTPUT: Products -> handleChangeFinger -> res`, res);
-    // await axios.post(url, formData, config).then(response => console.log('finger:', response.data)).catch(error => console.log('error finger: ', error))
-    // axios.post(this.state.methodUrl, new FormData(event.target),).then(response => console.log('finger:', response.data)).catch(error => console.log('error finger: ', error))
+
   };
 
   render() {
@@ -688,9 +695,7 @@ class Products extends Component {
       merchantId, //as assigned by Nuvei
       merchantSiteId, // your Merchant Site ID provided by Nuvei
     });
-    // console.log(`OUTPUT: Products -> render -> sfc`, sfc);
 
-    //Instantiate Nuvei Fields
     var ScFields = sfc.fields({
       fonts: [
         {
@@ -700,7 +705,6 @@ class Products extends Component {
       locale: 'en', // you can set your users preferred locale, if not provided we will try to autodetect
     });
 
-    // Activate Nuvei Fields
     var style = {
       base: {
         fontFamily: 'Roboto, sans-serif',
@@ -727,77 +731,6 @@ class Products extends Component {
       },
     };
 
-    // var scard = ScFields.create('card', { style: style });
-    // console.log(`OUTPUT: Products -> render -> scard`, scard);
-    // showButton &&
-    //   scard.attach(document.getElementById('card-field-placeholder'));
-
-    const paymentOption = {
-      card: {
-        cardNumber,
-        cardHolderName,
-        expirationMonth,
-        expirationYear,
-        CVV,
-        // threeD: {
-        //   methodCompletionInd: 'Y',
-        //   version: '2',
-        //   notificationURL:
-        //     'http://wwww.Test-Notification-URL-After-The-Challange-Is-Complete-Which-Recieves-The-CRes-Message.com',
-        //   merchantURL:
-        //     'http://www.The-Merchant-Website-Fully-Quallified-URL.com',
-        //   platformType: '02',
-        //   v2AdditionalParams: {
-        //     challengePreference: '01',
-        //     deliveryEmail:
-        //       'The_Email_Address_The_Merchandise_Was_Delivered@yoyoyo.com',
-        //     deliveryTimeFrame: '03',
-        //     giftCardAmount: '1',
-        //     giftCardCount: '41',
-        //     giftCardCurrency: 'USD',
-        //     preOrderDate: '20220511',
-        //     preOrderPurchaseInd: '02',
-        //     reorderItemsInd: '01',
-        //     shipIndicator: '06',
-        //     rebillExpiry: '20200101',
-        //     rebillFrequency: '13',
-        //     challengeWindowSize: '05',
-        //   },
-        //   browserDetails: {
-        //     acceptHeader: 'text/html,application/xhtml+xml',
-        //     ip: '192.168.1.11',
-        //     javaEnabled: 'TRUE',
-        //     javaScriptEnabled: 'TRUE',
-        //     language: 'EN',
-        //     colorDepth: '48',
-        //     screenHeight: '400',
-        //     screenWidth: '600',
-        //     timeZone: '0',
-        //     userAgent: 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47',
-        //   },
-        //   account: {
-        //     age: '05',
-        //     lastChangeDate: '20190220',
-        //     lastChangeInd: '04',
-        //     registrationDate: '20190221',
-        //     passwordChangeDate: '20190222',
-        //     resetInd: '01',
-        //     purchasesCount6M: '6',
-        //     addCardAttempts24H: '24',
-        //     transactionsCount24H: '23',
-        //     transactionsCount1Y: '998',
-        //     cardSavedDate: '20190223',
-        //     cardSavedInd: '02',
-        //     addressFirstUseDate: '20190224',
-        //     addressFirstUseInd: '03',
-        //     nameInd: '02',
-        //     suspiciousActivityInd: '01',
-        //   },
-        // },
-      },
-    };
-
-    // this.initialPayment()
 
     return (
       <div>
@@ -811,8 +744,6 @@ class Products extends Component {
             value={this.state.methodPayload}
           />
         </form>
-        <div>methodUrl: {this.state.methodUrl}</div>
-        <div>methodPayload: {this.state.methodPayload}</div>
         <form id='payment-form'>
           <div className='form-row'>
             <label htmlFor='card-field-placeholder'>Credit or debit card</label>
@@ -822,7 +753,7 @@ class Products extends Component {
               type='text'
               name=''
               id='cardHolderName'
-              value={cardHolderName}
+              value={this.state.cardHolderName}
               onChange={(e) => this.handleChangeName(e)}
             />
             <br />
@@ -831,7 +762,7 @@ class Products extends Component {
               type='text'
               name=''
               id='cardNumber'
-              value={cardNumber}
+              value={this.state.cardNumber}
               onChange={(e) => this.handleChange(e)}
             />
             <label htmlFor='cardHolderName'>Exp Month:</label>
@@ -839,7 +770,7 @@ class Products extends Component {
               type='text'
               name=''
               id='expirationMonth'
-              value={expirationMonth}
+              value={this.state.expirationMonth}
               onChange={(e) => this.handleChangeExpMonth(e)}
             />
             <label htmlFor='cardHolderName'>Exp Year:</label>
@@ -847,7 +778,7 @@ class Products extends Component {
               type='text'
               name=''
               id='expirationYear'
-              value={expirationYear}
+              value={this.state.expirationYear}
               onChange={(e) => this.handleChangeExpYear(e)}
             />
             <label htmlFor='cardHolderName'>CVS:</label>
@@ -855,7 +786,7 @@ class Products extends Component {
               type='text'
               name=''
               id='CVV'
-              value={CVV}
+              value={this.state.CVV}
               onChange={(e) => this.handleChangeCvs(e)}
             />
             <div

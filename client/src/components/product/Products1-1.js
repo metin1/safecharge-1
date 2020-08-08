@@ -21,11 +21,17 @@ let clientRequestId = '20200805200408';
 let timeStamp = '20200805200408'; 
 let CVV = '217';
 let userPaymentOptionId  = ''
+let relatedTransactionId = ''
 class Products extends Component {
   constructor(props) {
     super(props);
     this.state = {
       showButton: false,
+      cardNumber,
+      cardHolderName,
+      expirationMonth,
+      expirationYear,
+      CVV,
     };
 
     window.React = React;
@@ -56,6 +62,7 @@ class Products extends Component {
       merchantId,
       clientRequestId,
       clientUniqueId,
+      userTokenId,
       timeStamp,
       checksum:
         'ec46a8bedde9a414c87bfebfdb3e466a76b8e5c4809e0963e5be6b467655612c',
@@ -76,8 +83,6 @@ class Products extends Component {
       .then(function (response) {
         console.log('openOrder response: ',response.data);
         sessionToken = response.data && response.data.sessionToken;
-        // clientUniqueId = response.data && response.data.clientUniqueId;
-        // userTokenId = response.data && response.data.userTokenId;
       })
       .catch(function (error) {
         console.log(error);
@@ -97,21 +102,26 @@ class Products extends Component {
 
   handleChangeName = (e) => {
     console.log(e.target.value);
-    cardHolderName = e.target.value;
+    cardHolderName = e.target.value;  
+    this.setState({cardHolderName : e.target.value})
   };
   handleChange = (e) => {
     cardNumber = e.target.value;
+    this.setState({cardNumber : e.target.value})
     if (cardNumber.length === 16) {
     }
   };
   handleChangeExpMonth = (e) => {
     expirationMonth = e.target.value;
+    this.setState({expirationMonth : e.target.value})
   };
   handleChangeExpYear = (e) => {
     expirationYear = e.target.value;
+    this.setState({expirationYear : e.target.value})
   };
   handleChangeCvs = (e) => {
     CVV = e.target.value;
+    this.setState({CVV : e.target.value})
   };
 
   getSession = async () => {
@@ -265,7 +275,7 @@ class Products extends Component {
               type='text'
               name=''
               id='cardHolderName'
-              value={cardHolderName}
+              value={this.state.cardHolderName}
               onChange={(e) => this.handleChangeName(e)}
             />
             <br />
@@ -274,7 +284,7 @@ class Products extends Component {
               type='text'
               name=''
               id='cardNumber'
-              value={cardNumber}
+              value={this.state.cardNumber}
               onChange={(e) => this.handleChange(e)}
             />
             <label htmlFor='cardHolderName'>Exp Month:</label>
@@ -282,7 +292,7 @@ class Products extends Component {
               type='text'
               name=''
               id='expirationMonth'
-              value={expirationMonth}
+              value={this.state.expirationMonth}
               onChange={(e) => this.handleChangeExpMonth(e)}
             />
             <label htmlFor='cardHolderName'>Exp Year:</label>
@@ -290,7 +300,7 @@ class Products extends Component {
               type='text'
               name=''
               id='expirationYear'
-              value={expirationYear}
+              value={this.state.expirationYear}
               onChange={(e) => this.handleChangeExpYear(e)}
             />
             <label htmlFor='cardHolderName'>CVS:</label>
@@ -298,7 +308,7 @@ class Products extends Component {
               type='text'
               name=''
               id='CVV'
-              value={CVV}
+              value={this.state.CVV}
               onChange={(e) => this.handleChangeCvs(e)}
             />
             <div
@@ -397,6 +407,7 @@ class Products extends Component {
                           },
                         },
                       },
+
                       billingAddress: {
                         firstName: 'John',
                         lastName: 'Smith',
@@ -415,7 +426,7 @@ class Products extends Component {
                       timeStamp,
                       checksum:
                         'ec46a8bedde9a414c87bfebfdb3e466a76b8e5c4809e0963e5be6b467655612c',
-                      relatedTransactionId: '1110000000007288171',
+                      relatedTransactionId: res.transactionId,
                       currency: 'EUR',
                       amount: '10',
                       userTokenId,
@@ -452,7 +463,7 @@ class Products extends Component {
                     };
                     axios(config)
                       .then(function (response) {
-                        console.log(response.data);
+                        console.log("Payment response: ",response.data);
                         if (response && response.data && response.data.transactionStatus === 'ERROR') {
                           Swal.fire('Error', `Error reason: ${response &&  response.data && response.data.gwErrorReason}`, 'error');
                         } 

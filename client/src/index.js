@@ -7,14 +7,14 @@ import jwtDecode from "jwt-decode";
 import "./index.css";
 import App from "./components/App";
 import Home from "./components/layout/pages/home/Home";
-import PartTwo from "./components/auth/Part2";
-import Part1 from "./components/auth/Part1";
-import Part2 from "./components/auth/Part2initial";
-import PartTwo2 from "./components/auth/Part2-2";
+import Part3_2 from "./components/auth/Part2-1";
+import Part1_2 from "./components/auth/Part1-2";
+import Part3_1 from "./components/auth/Part2-2";
+import Part2_1 from "./components/auth/Part2initial";
 import NotFound from "./components/layout/pages/notFound/NotFound";
-import SignUp from "./components/auth/SignUp";
-import Login from "./components/auth/Login";
-import Products from "./components/product/Products";
+import Part1_3 from "./components/auth/Part1-3";
+import Part1_1 from "./components/auth/Part1-1";
+import Products from "./components/product/Products1-1";
 import Product from "./components/product/Product";
 import Cart from "./components/shopping-cart/Cart";
 import Checkout from "./components/shopping-cart/Checkout";
@@ -59,12 +59,12 @@ ReactDOM.render(
       <App>
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route path="/parttwo" component={PartTwo} />
-          <Route path="/part1" component={Part1} />
-          <Route path="/part2" component={Part2} />
-          <Route path="/parttwo2" component={PartTwo2} />
-          <Route path="/partone-err" component={SignUp} />
-          <Route path="/partone" component={Login} />
+          <Route path="/part3-2" component={Part3_2} />
+          <Route path="/part1-1" component={Part1_1} />
+          <Route path="/part1-2" component={Part1_2} />
+          <Route path="/part1-3" component={Part1_3} />
+          <Route path="/part2-1" component={Part2_1} />
+          <Route path="/part3-1" component={Part3_1} />
           <Route path="/my-account" component={MyAccount} />
           <Route path="/dashboard" component={Dashboard} />
           <Route path="/customer/:id" component={Customer} />

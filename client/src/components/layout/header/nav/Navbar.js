@@ -28,7 +28,9 @@ class Navbar extends Component {
   handleOnclick = () => {
     this.props.logout();
   };
-
+        // <li>
+        //   <Link to="/partone-err">PartOne-2</Link>
+        // </li>
   render() {
     const { isAuthenticated, user } = this.props.auth;
     //const { items } = this.props.items
@@ -36,22 +38,22 @@ class Navbar extends Component {
     const guestLinks = (
       <ul className='guestLinks'>
         <li>
-          <Link to="/part1">Part-1</Link>
+          <Link to="/part1-2">Form</Link>
         </li>
         <li>
-          <Link to="/part2">Form</Link>
+          <Link to="/part1-1">Part1-1</Link>
         </li>
         <li>
-          <Link to="/partone">PartOne</Link>
+          <Link to="/part1-3">Part1-2</Link>
         </li>
         <li>
-          <Link to="/partone-err">PartOne-2</Link>
+          <Link to="/part2-1">Part2-1</Link>
         </li>
         <li>
-          <Link to="/parttwo">PartTwo</Link>
+          <Link to="/part3-1">Part3-1</Link>
         </li>
         <li>
-          <Link to="/parttwo2">PartTwo-2</Link>
+          <Link to="/part3-2">Part3-2</Link>
         </li>
       </ul>
     );
